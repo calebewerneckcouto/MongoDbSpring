@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.devsuperior.workshopmongo.entities.User;
+import com.devsuperior.workshopmongo.repositories.PostRepository;
 import com.devsuperior.workshopmongo.repositories.UserRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -16,10 +17,16 @@ import jakarta.annotation.PostConstruct;
 public class TestConfig {
 	@Autowired
 	private UserRepository userRepository;
+	
+	
+	@Autowired
+	private PostRepository postRepository;
 
 	@PostConstruct // forca o spring a criar o que foi determinado abaixo
 	public void init() {
 		userRepository.deleteAll();
+		
+		postRepository.deleteAll();
 
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex", "alex@gmail.com");

@@ -1,6 +1,10 @@
 package com.devsuperior.workshopmongo.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")     // mapear coleção do banco mongodb...
@@ -9,6 +13,8 @@ public class User {
 	private String id;
 	private String name;
 	private String email;
+	@DBRef(lazy = true)// nao e para carregar os post dele... apenas se eu chamar
+	public List<Post>posts = new ArrayList<Post>();
 	
 	public User() {
 	
