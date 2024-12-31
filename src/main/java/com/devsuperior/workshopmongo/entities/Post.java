@@ -1,5 +1,8 @@
 package com.devsuperior.workshopmongo.entities;
 
+
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,23 +13,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.devsuperior.workshopmongo.models.embedded.Author;
 import com.devsuperior.workshopmongo.models.embedded.Comment;
 
-@Document(collection = "posts") // mapear coleção do banco mongodb...
-public class Post {
+@Document
+public class Post implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	private String id;
 	private Instant moment;
 	private String title;
 	private String body;
-
 	private Author author;
-	private List<Comment> comments = new ArrayList<Comment>();
-
+	
+	private List<Comment> comments = new ArrayList<>();
+	
 	public Post() {
-
 	}
 
 	public Post(String id, Instant moment, String title, String body, Author author) {
-
+		super();
 		this.id = id;
 		this.moment = moment;
 		this.title = title;
@@ -78,6 +82,32 @@ public class Post {
 		return comments;
 	}
 
-	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }
