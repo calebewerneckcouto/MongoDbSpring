@@ -19,16 +19,26 @@ public class UserService {
 
 	public List<UserDTO> findAll() {
 		List<User> list = repository.findAll();
-		return list.stream().map(x-> new UserDTO(x)).collect(Collectors.toList());
-	}
-	
-	
-	
-	public UserDTO findById(String id) {
-		Optional<User> result = repository.findById(id);
-		User entity = result.orElseThrow(()-> new ResourceNotFoundException("Objeto não encontrado"));
-		return new UserDTO(entity);
-		
+		return list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 	}
 
+	public UserDTO findById(String id) {
+		Optional<User> result = repository.findById(id);
+		User entity = result.orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado"));
+		return new UserDTO(entity);
+
+	}
+
+	public UserDTO insert(UserDTO dto) {
+		User entity = new User();
+		copyDtoToEntity(dto,entity);
+		entity = repository.insert(entity);
+		return new UserDTO(entity);
+	}
+
+	private void copyDtoToEntity(UserDTO dto, User entity) {
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		
+	}
 }
