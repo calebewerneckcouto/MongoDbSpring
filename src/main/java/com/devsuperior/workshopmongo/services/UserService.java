@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devsuperior.workshopmongo.entities.User;
+import com.devsuperior.workshopmongo.models.dto.PostDTO;
 import com.devsuperior.workshopmongo.models.dto.UserDTO;
 import com.devsuperior.workshopmongo.repositories.UserRepository;
 import com.devsuperior.workshopmongo.services.exceptions.ResourceNotFoundException;
@@ -54,6 +55,15 @@ public class UserService {
 		getFindById(id);
 		repository.deleteById(id);
 	}
+	
+	
+	public List<PostDTO>getUserPosts(String id){
+		User user = getFindById(id);
+		return user.getPosts().stream().map(x-> new PostDTO(x)).collect(Collectors.toList());
+	}
+	
+	
+	
 
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setName(dto.getName());
