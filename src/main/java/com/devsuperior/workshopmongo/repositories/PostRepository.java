@@ -3,6 +3,7 @@ package com.devsuperior.workshopmongo.repositories;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.devsuperior.workshopmongo.entities.Post;
@@ -11,5 +12,7 @@ import com.devsuperior.workshopmongo.entities.Post;
 public interface PostRepository extends MongoRepository<Post, String>{
 	
 	List<Post> findByTitleContainingIgnoreCase(String text);// busca title que contem o texto passado e ignora CameCase
-
+    
+	@Query("{ 'title' : { $regex: ?0, $options: 'i'  } }")
+	List<Post> searchTitle(String text);// faz a mesma coisa que o de cima, porem utilizando sintaxe de consulta MongoDB
 }
